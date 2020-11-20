@@ -1,6 +1,6 @@
-# simple-racket-compiler
+# smallracket-compiler
 
-it's very simple lisp like language. started in my compilers class and expanded a bit afterwards. i've borrowed the [asm printer](http://www.cs.umd.edu/class/spring2020/cmsc430/code/hustle/asm/printer.rkt) and added to it for additional operations
+it's a VERY simple lisp like language. started in my compilers class and expanded a bit afterwards. i've borrowed the [asm printer](http://www.cs.umd.edu/class/spring2020/cmsc430/code/hustle/asm/printer.rkt) and added to it for additional operations
 
 you will need racket to be able to run this compiler.
 
