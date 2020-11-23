@@ -35,6 +35,16 @@
     (mov rdi, 1)
     syscall
 
+    _printNewline
+    (mov rax 1)
+    (mov rdi 1)
+    (mov rdx 1)
+    (mov rsi 10)
+    (push rsi)
+    (mov rsi rsp)
+    syscall
+    (pop rsi)
+    ret
     _printString
     (pop r10);get this return address out of my way i swear to god
     (pop rdi)
@@ -42,7 +52,6 @@
     (shr rdi 5);shift to get rid of int tag
     (mov r8 0)
     (mov r9 rdi)
-
     _printStringLoop
     (cmp r8 r9)
     (je _printStringEnd)
@@ -61,6 +70,7 @@
     _printStringEnd
     (pop rsi);get rid of that null terminator
     (push r10);welcome back ;)
+    (call _printNewline)
     ret
     ;;adding subroutine to print integers
     _printChar
@@ -70,6 +80,7 @@
     (mov rdx 1)
     (mov rsi rsp)
     syscall
+    (call _printNewline)
     (pop rax)
     ret
     _printInt
