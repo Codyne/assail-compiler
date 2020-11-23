@@ -20,6 +20,9 @@
     [`(string-ref ,x ,y)
      (and (expr? x)
           (expr? y))]
+    [`(make-string ,x ,y)
+     (and (expr? x)
+          (expr? y))]
     [_ #f]))
 
 (define (prim1? x)
@@ -38,6 +41,3 @@
                  /
                  cons
                  -))))
-
-
-
