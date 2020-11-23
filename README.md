@@ -1,12 +1,15 @@
 # smallracket-compiler
 
-it's a VERY simple lisp like language. started in my compilers class and expanded a bit afterwards. i've borrowed the [asm printer](http://www.cs.umd.edu/class/spring2020/cmsc430/code/hustle/asm/printer.rkt) and added to it for additional operations
+this compiles a VERY simple lisp like language to x86_64 assembly. started in my compilers class and expanded afterwards. i've borrowed the [asm printer](http://www.cs.umd.edu/class/spring2020/cmsc430/code/hustle/asm/printer.rkt) and added to it to support additional operations
 
-you will need racket to be able to run this compiler.
+you will need racket to be able to run this compiler and you'll want nasm for the outputted assembly
 
-`sudo apt-get install racket`
+`sudo apt-get install racket nasm`
 
-once you have racket, you can run the compiler on `your_file_here` with `racket compile-file.rkt your_file_here` and lastly run the output through nasm
+once you have racket, you can run the compiler on `your_file_here` with `racket compile-file.rkt your_file_here` and lastly run the output through nasm.
+
+on my machine, `Linux Debian 5.9.0-1-amd64 x86_64 GNU/Linux`, i run this to compile and run the executable
+`racket compile-file.rkt example.srkt > example.s && nasm -f elf64 -g -o example.o example.s && ld example.o -o example-exe && ./example-exe`
 
 Example programs:
 
