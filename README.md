@@ -10,13 +10,13 @@ once you have racket, you can run the compiler on `your_file_here` with `racket 
 
 Example programs:
 
-`(print "Hello World!")` - prints the "Hello World!" string
+`(print "Hello World!")` - prints the "Hello World!" string `Hello World!`
 
 `(print (string-ref "Hello World!" 6))` - gets the 7th letter in the string and prints it `W`
 
 `(print (make-string 7 #\w))` - makes a string of 7 w chars and prints it `wwwwwww`
 
-`(print (make-string 7 (string-ref "Hello world!" 6)))` - makes a string of 7 chars of the 7th letter in the string `Hello world!` and then prints the output `wwwwwww`
+`(print (make-string 7 (string-ref "Hello world!" 6)))` - makes a string of 7 chars of the 7th letter in the string "Hello world!" and then prints the output `wwwwwww`
 
 `(print (integer? 6))` - prints true `2`
 
