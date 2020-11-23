@@ -35,7 +35,43 @@
     (mov rdi, 1)
     syscall
 
+    _printString
+    (pop r10);get this return address out of my way i swear to god
+    (pop rdi)
+    (pop rdi);get the string length
+    (shr rdi 5);shift to get rid of int tag
+    (mov r8 0)
+    (mov r9 rdi)
+
+    _printStringLoop
+    (cmp r8 r9)
+    (je _printStringEnd)
+    (mov rax 1)
+    (mov rdi 1)
+    (mov rdx 1)
+    ;(mov rsi rsp)
+    (pop rsi)
+    (shr rsi 5)
+    (push rsi)
+    (mov rsi rsp)
+    syscall
+    (pop rsi)
+    (add r8 1)
+    (jmp _printStringLoop)
+    _printStringEnd
+    (pop rsi);get rid of that null terminator
+    (push r10);welcome back ;)
+    ret
     ;;adding subroutine to print integers
+    _printChar
+    (push rdi)    
+    (mov rax 1)
+    (mov rdi 1)
+    (mov rdx 1)
+    (mov rsi rsp)
+    syscall
+    (pop rax)
+    ret
     _printInt
     (push rdi)
     (mov rax rdi)
@@ -199,38 +235,35 @@
 (define (compile-string str c)
   (if (< 0 (string-length str))
       (let ((c0 (compile-e (string-length str) c))
-            (c1 (compile-str str (string-length str) 0 c)))
-        `(,@c0
-          (mov (offset rdi 0) rax)
-          (mov rax rdi)
-          ,@c1
-          (mov rax rdi)
+            (c1 (compile-str str (string-length str) (- (string-length str) 1) c)))
+        `(,@c1
+          ,@c0
+          (push rax)
+          (mov rax rsp)
           (or rax ,type-string)
-          (add rdi ,(* 8 (+ 1 (string-length str)))) ; allocate 8 bytes for each char plus 1 for string length
           )
         )
       (let ((c0 (compile-e (string-length str) c)))
         `(,@c0
-          (mov (offset rdi 0) rax)
-          (mov rax rdi)
+          (push rax)
+          (mov rax rsp)
           (or rax ,type-string)
-          (add rdi 8) ; allocate 8 bytes
           )
         )
       )
   )
 
 (define (compile-str str len pos c)
-  (if (< pos (- len 1))
+  (if (< 0 pos)
       (let ((c0 (compile-e (string-ref str pos) c))
-            (c1 (compile-str str len (+ pos 1) c)))
+            (c1 (compile-str str len (- pos 1) c)))
         `(,@c0
-          (mov (offset rdi ,(+ 1 pos)) rax)
+          (push rax)
           ,@c1)
         )
       (let ((c0 (compile-e (string-ref str pos) c)))
         `(,@c0
-          (mov (offset rdi ,(+ 1 pos)) rax)
+          (push rax)
           )
         )
       )
@@ -458,14 +491,27 @@
       (and rax ,result-type-mask)
       (cmp rax ,type-string)
       (je ,l0)
-      (and rax ,result-type-mask)
+      (pop rax)
+      (push rax)
+      (and rax ,imm-type-mask)
+      (cmp rax ,imm-type-char)
+      (je ,l1)
+      (pop rax)
+      (push rax)
+      (and rax ,imm-type-mask)
       (cmp rax ,imm-type-int)
       (je ,l2)
       (jmp err)
       ,l0
-      ;sections l0 and l1 will be used for printing strings
-      ;when i get around to adding that in
+      (call _printString)
+      (jmp ,l3)
       ,l1
+      (pop rdi)
+      (shr rdi 5)
+      (call _printChar)
+      (shl rax 5)
+      (or rax ,imm-type-char)
+      (jmp ,l3)
       ,l2
       (pop rdi)
       (shr rdi 5)
