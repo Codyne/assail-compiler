@@ -14,9 +14,9 @@ Example programs:
 
 `(print (string-ref "Hello World!" 6))` - gets the 7th letter in the string and prints it `W`
 
-`(print (make-string #\w 7))` - makes a string of 7 w chars and prints it `wwwwwww`
+`(print (make-string 7 #\w))` - makes a string of 7 w chars and prints it `wwwwwww`
 
-`(print (make-string (string-ref "Hello world!" 6) 7))` - makes a string of 7 chars of the 7th letter in the string `Hello world!` and then prints the output `wwwwwww`
+`(print (make-string 7 (string-ref "Hello world!" 6)))` - makes a string of 7 chars of the 7th letter in the string `Hello world!` and then prints the output `wwwwwww`
 
 `(print (integer? 6))` - prints true `2`
 
