@@ -12,7 +12,7 @@ Example programs:
 
 `(print "Hello World!")` - prints the "Hello World!" string
 
-`(print (string-ref "Hello World!" 6)` - gets the 7th letter in the string and prints it `W`
+`(print (string-ref "Hello World!" 6))` - gets the 7th letter in the string and prints it `W`
 
 `(print (make-string #\w 7))` - makes a string of 7 w chars and prints it `wwwwwww`
 
