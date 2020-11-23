@@ -309,40 +309,23 @@
 (define (compile-make-string i ch c)
   (if (< 0 i)
       (let ((c0 (compile-e i c))
-            (c1 (compile-make-str i ch 1 c)))
+            (c1 (compile-e ch c))
+            (l0 (gensym)))
         `(,@c0
-          (mov (offset rdi 0) rax)
-          (mov rax rdi)
+          (mov r10 0)
+          (push r10)
+          (mov r9 rax)
           ,@c1
-          (mov rax rdi)
-          (or rax ,type-string)
-          (add rdi ,(* 8 (+ 1 i))) ; allocate 8 bytes for each char plus 1 for string length
-          )
-        )
-      (let ((c0 (compile-e 0 c)))
-        `(,@c0
-          (mov (offset rdi 0) rax)
-          (mov rax rdi)
-          (or rax ,type-string)
-          (add rdi 8) ; allocate 8 bytes
-          )
-        )
-      )
-  )
-
-(define (compile-make-str i ch cur c)
-  (if (< cur i)
-      (let ((c0 (compile-e ch c))
-            (c1 (compile-make-str i ch (+ cur 1) c)))
-        `(,@c0
-          (mov (offset rdi ,cur) rax)
-          ,@c1)
-        )
-      (let ((c0 (compile-e ch c)))
-        `(,@c0
-          (mov (offset rdi ,cur) rax)
-          )
-        )
+          (mov r10 rax)
+          (mov r8 0)
+          ,l0
+          (push r10)
+          (add r8 1)
+          (cmp r8 r9)
+          (jl ,l0)
+          (push r9)
+          (or rax ,type-string)))
+      (`(jmp err))
       )
   )
 
