@@ -17,6 +17,9 @@
      (and (andmap expr? xs)
           (andmap expr? ys)
           (expr? z))]
+    [`(string-ref ,x ,y)
+     (and (expr? x)
+          (expr? y))]
     [_ #f]))
 
 (define (prim1? x)
@@ -35,7 +38,6 @@
                  /
                  cons
                  -))))
-
 
 
 
