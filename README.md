@@ -10,21 +10,29 @@ once you have racket, you can run the compiler on `your_file_here` with `racket 
 
 Example programs:
 
-`(print (integer? 6))` true `2`
+`(print "Hello World!")` - prints the "Hello World!" string
 
-`(print (integer? #\b))` false `0`
+`(print (string-ref "Hello World!" 6)` - gets the 7th letter in the string and prints it `W`
 
-`(print (= (/ 8 4) 2))` true `2`
+`(print (make-string #\w 7))` - makes a string of 7 w chars and prints it `wwwwwww`
 
-`(print (if (= (/ 8 4) 2) #t #f))` true `2`
+`(print (make-string (string-ref "Hello world!" 6) 7))` - makes a string of 7 chars of the 7th letter in the string `Hello world!` and then prints the output `wwwwwww`
 
-`(print (if (< (* 8 8) 64) #t #f))` false `0`
+`(print (integer? 6))` - prints true `2`
 
-`(print (abs -10))` for absolute value of 10, `10`
+`(print (integer? #\b))` - prints false `0`
 
-`(print (cond [(zero? 1) 2] [(zero? (sub1 1)) 4] [else 3]))` outputs `4`
+`(print (= (/ 8 4) 2))` - prints true `2`
 
-`(print (if (zero? (if (zero? 0) 1 0)) (if (zero? 1) 1 2) 7))` outputs `7`
+`(print (if (= (/ 8 4) 2) #t #f))` - prints true `2`
+
+`(print (if (< (* 8 8) 64) #t #f))` - prints false `0`
+
+`(print (abs -10))` - prints the absolute value of 10, `10`
+
+`(print (cond [(zero? 1) 2] [(zero? (sub1 1)) 4] [else 3]))` - prints `4`
+
+`(print (if (zero? (if (zero? 0) 1 0)) (if (zero? 1) 1 2) 7))` - prints `7`
 
 supported types, keywords, and operations here:
 ```
