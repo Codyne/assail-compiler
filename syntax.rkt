@@ -3,26 +3,34 @@
 
 (define (expr? x)
   (match x
+    [(cons h '()) (expr?-helper h)]
+    [(cons h t) (and (expr?-helper h) (expr? t))]
+    [_ #f]
+    )
+  )
+
+(define (expr?-helper x)
+  (match x
     [(? integer? i) #t]
     [(? boolean? b) #t]
     [(? char? c) #t]
     [(? string? s) #t]
     [`(if ,x ,y ,z)
-     (and (expr? x)
-          (expr? y)
-          (expr? z))]
-    [`(,(? prim1?) ,x) (expr? x)]
-    [`(,(? prim2?) ,x ,y) (and (expr? x) (expr? y))]
+     (and (expr?-helper x)
+          (expr?-helper y)
+          (expr?-helper z))]
+    [`(,(? prim1?) ,x) (expr?-helper x)]
+    [`(,(? prim2?) ,x ,y) (and (expr?-helper x) (expr?-helper y))]
     [(list 'cond `(,xs ,ys) ... `(else ,z))
-     (and (andmap expr? xs)
-          (andmap expr? ys)
-          (expr? z))]
+     (and (andmap expr?-helper xs)
+          (andmap expr?-helper ys)
+          (expr?-helper z))]
     [`(string-ref ,x ,y)
-     (and (expr? x)
-          (expr? y))]
+     (and (expr?-helper x)
+          (expr?-helper y))]
     [`(make-string ,x ,y)
-     (and (expr? x)
-          (expr? y))]
+     (and (expr?-helper x)
+          (expr?-helper y))]
     [_ #f]))
 
 (define (prim1? x)

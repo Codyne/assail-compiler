@@ -3,7 +3,8 @@
 
 (define (parse lot)
   (match (parse-expr lot)
-    [(cons '(eof) e) e]
+    [(cons '(eof) e) (list e)]
+    [(cons (cons 'lparen e2) e1) (append (list e1) (parse (cons 'lparen e2)))]
     [_ (error "parse error")]))
 
 (define (prim1? p)

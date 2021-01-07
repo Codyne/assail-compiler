@@ -26,7 +26,7 @@
 
 (define (compile e)
   `(_start
-    ,@(compile-e e '())
+    ,@(compile-exprs e '())
     (mov rax 60)
     (mov rdi 0)
     syscall
@@ -118,6 +118,13 @@
     (pop rdi)
     ret
     ))
+
+(define (compile-exprs exprs c)
+  (match exprs
+    [(cons h '()) (append c (compile-e h '()))]
+    [(cons h t) (compile-exprs t (append c (compile-e h '())))]
+    )
+  )
 
 (define (compile-e e c)
   (match e
@@ -517,10 +524,8 @@
 (define (compile-box e0 c)
   (let ((c0 (compile-e e0 c)))
     `(,@c0
-      (mov (offset rdi 0) rax)
-      (mov rax rdi)
-      (or rax ,type-box)
-      (add rdi 8)))) ; allocate 8 bytes
+      (push rax)
+      (or rax ,type-box))))
 
 (define (compile-unbox e0 c)
   (let ((c0 (compile-e e0 c)))
@@ -533,21 +538,25 @@
   (let ((c0 (compile-e e0 c))
         (c1 (compile-e e1 (cons #f c))))
     `(,@c0
-      (mov (offset rsp ,(- (add1 (length c)))) rax)
+      ;(mov (offset rsp ,(- (add1 (length c)))) rax)
+      (push rax)
       ,@c1
-      (mov (offset rdi 0) rax)
-      (mov rax (offset rsp ,(- (add1 (length c)))))
-      (mov (offset rdi 1) rax)
-      (mov rax rdi)
+      ;(mov (offset rdi 0) rax)
       (or rax ,type-pair)
-      (add rdi 16))))
+      (push rax)
+      ;(mov rax (offset rsp ,(- (add1 (length c)))))
+      ;(mov (offset rdi 1) rax)
+      ;(mov rax rdi)
+      ;(add rdi 16))))
+      )))
 
 (define (compile-car e0 c)
   (let ((c0 (compile-e e0 c)))
     `(,@c0
       ,@assert-pair
+      ;(mov rax (offset rax 1))
       (xor rax ,type-pair) ; untag
-      (mov rax (offset rax 1)))))
+      )))
 
 (define (compile-cdr e0 c)
   (let ((c0 (compile-e e0 c)))
