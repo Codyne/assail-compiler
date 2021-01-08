@@ -15,6 +15,8 @@ Example programs:
 
 `(print "Hello World!")` - prints the "Hello World!" string `Hello World!`
 
+`(print "Hello") (print "World!")` - prints the "Hello\nWorld!" string `Hello\nWorld!`
+
 `(print (string-ref "Hello World!" 6))` - gets the 7th letter in the string and prints it `W`
 
 `(print (make-string 7 #\w))` - makes a string of 7 w chars and prints it `wwwwwww`
