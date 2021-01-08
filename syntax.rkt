@@ -15,6 +15,7 @@
     [(? boolean? b) #t]
     [(? char? c) #t]
     [(? string? s) #t]
+    [(? symbol?) (not (memq x '(if let add1 sub1)))]
     [`(if ,x ,y ,z)
      (and (expr?-helper x)
           (expr?-helper y)
@@ -31,12 +32,16 @@
     [`(make-string ,x ,y)
      (and (expr?-helper x)
           (expr?-helper y))]
+    [`(let ((,v ,y)) ,z)
+     (and (symbol? v)
+          (expr?-helper y)
+          (expr?-helper z))]
     [_ #f]))
 
 (define (prim1? x)
   (and (symbol? x)
        (memq x '(add1 sub1 abs - integer->char char->integer
-                      car cdr print length                      
+                      car cdr print length                     
                       char? integer? boolean? zero?))))
 
 (define (prim2? x)
