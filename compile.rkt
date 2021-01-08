@@ -502,6 +502,9 @@
       (and rax ,imm-type-mask)
       (cmp rax ,imm-type-int)
       (je ,l2)
+      (and rax ,imm-type-mask)
+      (cmp rax ,imm-type-bool)
+      (je ,l2)
       (jmp err)
       ,l0
       (call _printString)
