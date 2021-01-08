@@ -1,15 +1,18 @@
-# smallracket-compiler
+# Assail-compiler
 
-this compiles a VERY simple lisp like language to x86_64 assembly. started in my compilers class and expanded afterwards. i've borrowed the [asm printer](http://www.cs.umd.edu/class/spring2020/cmsc430/code/hustle/asm/printer.rkt) and added to it to support additional operations
+This is a compiler for a very lisp-like language based somewhat on scheme. The compiler is written in Racket and when run on a file, will output x86_64 instructions which you then run through NASM to make your executable. I've borrowed [asm printer](http://www.cs.umd.edu/class/spring2020/cmsc430/code/hustle/asm/printer.rkt) and expanded it to add support for new functionality.
 
-you will need racket to be able to run this compiler and you'll want nasm for the outputted assembly
+Install Racket and NASM
 
 `sudo apt-get install racket nasm`
 
-once you have racket, you can run the compiler on `your_file_here` with `racket compile-file.rkt your_file_here` and lastly run the output through nasm.
+To compile a program run `racket compile-file.rkt example.srkt`, and then run the output assembly through NASM.
 
-on my machine, `Linux Debian 5.9.0-1-amd64 x86_64 GNU/Linux`, i run this to compile and run the executable
-`racket compile-file.rkt example.srkt > example.s && nasm -f elf64 -g -o example.o example.s && ld example.o -o example-exe && ./example-exe`
+Alternatively, run this command to create your executable:
+
+`racket compile-file.rkt example.srkt > example.s && nasm -f elf64 -g -o example.o example.s && ld example.o -o example-exe`
+
+You will find an `example.srkt` file in this repo containing all the examples below, which when compiled and run will print the respective outputs.
 
 Example programs:
 
@@ -38,6 +41,8 @@ Example programs:
 `(print (cond [(zero? 1) 2] [(zero? (sub1 1)) 4] [else 3]))` - prints `4`
 
 `(print (if (zero? (if (zero? 0) 1 0)) (if (zero? 1) 1 2) 7))` - prints `7`
+
+`(let ((x 7)) (print x))` - stores 7 in variable x, and then prints the contents of x `7`
 
 supported types, keywords, and operations here:
 ```
