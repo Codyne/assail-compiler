@@ -74,7 +74,7 @@
     ret
     ;;adding subroutine to print integers
     _printChar
-    (push rdi)    
+    (push rdi)
     (mov rax 1)
     (mov rdi 1)
     (mov rdx 1)
@@ -541,32 +541,30 @@
   (let ((c0 (compile-e e0 c))
         (c1 (compile-e e1 (cons #f c))))
     `(,@c0
-      ;(mov (offset rsp ,(- (add1 (length c)))) rax)
-      (push rax)
+      (mov (offset rsp ,(- (add1 (length c)))) rax)
       ,@c1
-      ;(mov (offset rdi 0) rax)
+      (mov (offset rsp 0) rax)
+      (mov rax (offset rsp ,(- (add1 (length c)))))
+      (mov (offset rsp 1) rax)
+      (mov rax rsp)
       (or rax ,type-pair)
-      (push rax)
-      ;(mov rax (offset rsp ,(- (add1 (length c)))))
-      ;(mov (offset rdi 1) rax)
-      ;(mov rax rdi)
-      ;(add rdi 16))))
-      )))
+      (add rsp 16))))
 
 (define (compile-car e0 c)
   (let ((c0 (compile-e e0 c)))
     `(,@c0
       ,@assert-pair
-      ;(mov rax (offset rax 1))
-      (xor rax ,type-pair) ; untag
+      (xor rax ,type-pair)
+      (mov rax (offset rax 1))
       )))
 
 (define (compile-cdr e0 c)
   (let ((c0 (compile-e e0 c)))
     `(,@c0
       ,@assert-pair
-      (xor rax ,type-pair) ; untag
-      (mov rax (offset rax 0)))))
+      (xor rax ,type-pair)
+      (mov rax (offset rax 0))
+      )))
 
 (define (compile-add1 e0 c)
   (let ((c0 (compile-e e0 c)))
