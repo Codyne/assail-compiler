@@ -12,3 +12,5 @@
 (print (cond [(zero? 1) 2] [(zero? (sub1 1)) 4] [else 3]))
 (print (if (zero? (if (zero? 0) 1 0)) (if (zero? 1) 1 2) 7))
 (let ((x 7)) (print x))
+(print (car (cons 1 2)))
+(print (cdr (cons 1 2)))
