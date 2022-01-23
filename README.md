@@ -14,35 +14,23 @@ Alternatively, run this command to create your executable:
 
 You will find an `example.srkt` file in this repo containing all the examples below, which when compiled and run will print the respective outputs.
 
-Example programs:
-
-`(print "Hello World!")` - prints the "Hello World!" string `Hello World!`
-
-`(print "Hello") (print "World!")` - prints the "Hello\nWorld!" string `Hello\nWorld!`
-
-`(print (string-ref "Hello World!" 6))` - gets the 7th letter in the string and prints it `W`
-
-`(print (make-string 7 #\w))` - makes a string of 7 w chars and prints it `wwwwwww`
-
-`(print (make-string 7 (string-ref "Hello world!" 6)))` - makes a string of 7 chars of the 7th letter in the string "Hello world!" and then prints the output `wwwwwww`
-
-`(print (integer? 6))` - prints true `2`
-
-`(print (integer? #\b))` - prints false `0`
-
-`(print (= (/ 8 4) 2))` - prints true `2`
-
-`(print (if (= (/ 8 4) 2) #t #f))` - prints true `2`
-
-`(print (if (< (* 8 8) 64) #t #f))` - prints false `0`
-
-`(print (abs -10))` - prints the absolute value of 10, `10`
-
-`(print (cond [(zero? 1) 2] [(zero? (sub1 1)) 4] [else 3]))` - prints `4`
-
-`(print (if (zero? (if (zero? 0) 1 0)) (if (zero? 1) 1 2) 7))` - prints `7`
-
-`(let ((x 7)) (print x))` - stores 7 in variable x, and then prints the contents of x `7`
+| Example Program | Description | Program Output |
+| --------------- | -------------- | -------------- |
+| `(print "Hello World!")` | Prints the string and newline | `Hello World!` |
+| `(print "Hello") (print "World!")` | Prints both strings with a newline after each | `Hello\nWorld!` |
+| `(print (string-ref "Hello World!" 6))` |  Returns the 7th char (0 indexed) in the string | `W` |
+| `(print (make-string 7 #\w))` | Creates a string of 7 'w' chars | `wwwwwww` |
+| `(print (integer? 6))` | Checks if argument is an integer. This returns true | `2` |
+| `(print (integer? #\b))` | Checks if argument is an integer. This returns false |`0` |
+| `(print (= (/ 8 4) 2))` | Checks if `8 / 4` is equal to `2`. This returns true | `2` |
+| `(print (if (= (/ 8 4) 2) #t #f))` | Checks if the condition (1st argument) is true, and it is so it evaluates the 2nd argument |`2` |
+|`(print (if (< (* 8 8) 64) #t #f))` | Checks if the condition (1st argument) is true, and it isn't so it evaluates the 3rd argument| `0` |
+| `(print (abs -10))` | Abolsute value of `-10` | `10` |
+| `(print (cond [(zero? 1) 2] [(zero? (sub1 1)) 4] [else 3]))` | Evaluates the conditions until one is true or the else is reached | `4` |
+| `(print (if (zero? (if (zero? 0) 1 0)) (if (zero? 1) 1 2) 7))` | Example of using expressions inside if statement 2nd and 3rd arguments | `7` |
+| `(let ((x 7)) (print x))` | Assigning the value `7` to the variable `x` and printing it | `7` |
+| `(print (car (cons 1 2)))` | Creating a list and returning the 1st element | `1` |
+| `(print (cdr (cons 1 2)))` | Creating a list and returning the last element | `2` |
 
 supported types, keywords, and operations here:
 ```
